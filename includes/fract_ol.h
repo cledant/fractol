@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/01/24 12:12:34 by cledant          ###   ########.fr       */
+/*   Updated: 2016/07/26 23:32:27 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <string.h>
 # include <mlx.h>
 # include "libft.h"
+# include <cuda.h>
+# include <cuda_runtime.h>
 # define MLX_KEY_ESC 53
 # define MLX_KEY_MINUS 78
 # define MLX_KEY_PLUS 69
@@ -33,33 +35,43 @@
 # define MOTION_NOTIFY 6
 # define POINTER_MOTION_MASK (1L<<6)
 
-typedef struct	s_mlx
+typedef struct			s_mlx
 {
-	void	*mlx;
-	void	*win;
-	int		render;
-	void	*img;
-	size_t	iter;
-	size_t	win_x_size;
-	size_t	win_y_size;
-	int		m_x;
-	int		m_y;
-	int		m_x_old;
-	int		m_y_old;
-	int		offset_x;
-	int		offset_y;
-	double	x_min;
-	double	x_max;
-	double	y_min;
-	double	y_max;
-	double	x_pitch;
-	double	y_pitch;
-	double	zoom;
-	size_t	color;
-	char	*disp_iter;
-	int		fractal;
-	size_t	mouse_tracking;
-}				t_mlx;
+	void				*mlx;
+	void				*win;
+	int					render;
+	void				*img;
+	char				*buff_img;
+	size_t				iter;
+	size_t				win_x_size;
+	size_t				win_y_size;
+	int					m_x;
+	int					m_y;
+	int					m_x_old;
+	int					m_y_old;
+	int					offset_x;
+	int					offset_y;
+	float				x_min;
+	float				x_max;
+	float				y_min;
+	float				y_max;
+	float				x_pitch;
+	float				y_pitch;
+	float				zoom;
+	size_t				color;
+	char				*disp_iter;
+	int					fractal;
+	size_t				mouse_tracking;
+	cudaExtent			fl_extent;
+	cudaExtent			uint_extent;
+	cudaPitchedPtr		*fl_matrix;
+	cudaPitchedPtr		*uint_matrix;
+	float				*d_x_min;
+	float				*d_y_max;
+	float				*d_x_pitch;
+	float				*d_y_pitch;
+	char				*d_buff_img;
+}						t_mlx;
 
 char			*ft_mlx_i_position_in_2d(void *img, int i, int j);
 void			ft_mlx_i_pixel_put(void *img, int x, int y, int color);
@@ -97,5 +109,7 @@ void			ft_display_instruction(void);
 int				ft_check_first_argv(char *argv);
 int				ft_is_str_a_number(char *str);
 int				main_part_0_05(t_mlx *e, char **argv);
+int				ft_cuda_init(t_mlx *e);
+void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
 
 #endif

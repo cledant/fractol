@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striter.c                                       :+:      :+:    :+:   */
+/*   ft_mlx_i_draw_mandelbrot.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 13:57:37 by cledant           #+#    #+#             */
-/*   Updated: 2015/11/25 14:08:23 by cledant          ###   ########.fr       */
+/*   Created: 2016/01/19 12:35:05 by cledant           #+#    #+#             */
+/*   Updated: 2016/01/22 18:48:01 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_striter(char *s, void (*f)(char *))
+#include "fract_ol.h"
+
+void		ft_mlx_i_draw_mandelbrot(t_mlx *e)
 {
-	while (*s != '\0')
-	{
-		(*f)(s);
-		s++;
-	}
+	ft_matrix_seek_pixel_color<<<cc, cc>>>(e->ft_matrix, e->uint_matrix,
+			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_color);
+	ft_copy_to_image<<<sdfswfd,sdfsdf>>>(e->uint_matrix, e->d_buff_img);
+	cudaMemcpy(e->buff_img, e->d_buff_img, e->win_x_size * e->win_y_size * 4,
+			cudaMemcpyDeviceToHost);
+
 }

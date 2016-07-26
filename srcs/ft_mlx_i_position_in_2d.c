@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:58:58 by cledant           #+#    #+#             */
-/*   Updated: 2016/01/24 13:30:04 by cledant          ###   ########.fr       */
+/*   Updated: 2016/07/25 14:51:51 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ char	*ft_mlx_i_position_in_2d(void *img, int i, int j)
 	int		endian;
 
 	img_data = mlx_get_data_addr(img, &bpp, &size_line, &endian);
-	img_data = img_data + ((i - 1) * bpp / 8) + j * size_line;
+	img_data = img_data + (i * bpp / 8) + j * size_line;
 	return (img_data);
 }
