@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/26 23:32:27 by cledant          ###   ########.fr       */
+/*   Updated: 2016/07/28 15:27:18 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ int				ft_is_str_a_number(char *str);
 int				main_part_0_05(t_mlx *e, char **argv);
 int				ft_cuda_init(t_mlx *e);
 void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
+__global__ void	ft_matrix_seek_pixel_color
 
 #endif
