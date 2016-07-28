@@ -15,7 +15,7 @@ static void		ft_clean(t_mlx *e, int error)
 	if (error < 2)
 		cudaFree(e->fl_matrix);
 	if (error < 3)
-		cudaFree(e->unit_matrix);
+		cudaFree(e->uint_matrix);
 	if (error < 4)
 		cudaFree(e->d_x_min);
 	if (error < 5)

@@ -27,7 +27,6 @@ __device__ static float	ft_mb_it(struct cudaPitchedPtr *ft_matrix, size_t idx_x,
 		if (it > *it_max)
 			return (it);
 	}
-	return (it);
 }
 
 __device__ static unsigned int	ft_calc_color(struct cudaPitchedPtr *uint_matrix,
@@ -51,6 +50,7 @@ __device__ static unsigned int	ft_calc_color(struct cudaPitchedPtr *uint_matrix,
 	}
 	else
 		return (0x00000000);
+	return (0x00000000);
 }
 
 __global__ void			ft_matrix_calc_mb(struct cudaPitchedPtr *ft_matrix,

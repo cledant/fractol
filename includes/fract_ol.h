@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:48:48 by cledant          ###   ########.fr       */
+/*   Updated: 2016/07/28 22:15:38 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
 __global__ void	ft_matrix_calc_mb(struct cudaPitchedPtr *ft_matrix,
 					struct cudaPitchedPtr *uint_matrix, float *x_min, float *y_max,
 					float *x_pitch, float *y_pitch, size_t *win_x_size,
-					size_t *win_y_size, int *color, size_t *it_max);
+					size_t *win_y_size, size_t *color, size_t *it_max);
 void			ft_get_img_buff(t_mlx *e);
 __global__ void	ft_copy_to_image(struct cudaPitchedPtr *uint_matrix, char *buff,
 					size_t *win_x);
