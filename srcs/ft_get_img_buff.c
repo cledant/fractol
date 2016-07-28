@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_offset_value.c                                  :+:      :+:    :+:   */
+/*   ft_get_img_buff.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: cledant <cledant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/20 13:06:45 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:30:47 by cledant          ###   ########.fr       */
+/*   Created: 2016/07/28 20:31:42 by cledant           #+#    #+#             */
+/*   Updated: 2016/07/28 21:04:59 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-float	ft_offset_value(float value, int offset, float pitch)
+#include "fract_ol.h"
+
+void	ft_get_img_buff(t_mlx *e)
 {
-	return (value + (pitch * offset));
+	int		bpp;
+	int		size_line;
+	int		endian;
+
+	e->buff_img = mlx_get_data_addr(e->img, &bpp, &size_line, &endian);
 }

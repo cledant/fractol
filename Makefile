@@ -6,13 +6,13 @@
 #    By: cledant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 10:40:13 by cledant           #+#    #+#              #
-#    Updated: 2016/07/26 22:11:15 by cledant          ###   ########.fr        #
+#    Updated: 2016/07/28 21:31:46 by cledant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = nvcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS =
 
 INCLUDES = ./includes
 
@@ -35,7 +35,8 @@ SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
 			ft_mlx_i_draw_burningship_julia.c ft_check_first_argv.c expose_hook.c \
 			key_hook.c mouse_hook.c mouse_loc_hook.c ft_mlx_i_position_in_2d.c \
 			ft_mlx_i_pixel_put.c ft_is_str_a_number.c main_part_0_05.c \
-			ft_init_cuda.cu	ft_mlx_i_draw_mandelbrot_cuda.c
+			ft_init_cuda.cu	ft_mlx_i_draw_mandelbrot_cuda.cu ft_matrix_calc_mb.cu \
+			ft_get_img_buff.c ft_copy_to_image.cu
 
 SRC_PATH = ./srcs/
 

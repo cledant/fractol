@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 15:27:18 by cledant          ###   ########.fr       */
+/*   Updated: 2016/07/28 21:48:48 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include <cuda.h>
 # include <cuda_runtime.h>
+# define M_THREAD 32
 # define MLX_KEY_ESC 53
 # define MLX_KEY_MINUS 78
 # define MLX_KEY_PLUS 69
@@ -35,43 +36,48 @@
 # define MOTION_NOTIFY 6
 # define POINTER_MOTION_MASK (1L<<6)
 
-typedef struct			s_mlx
+typedef struct				s_mlx
 {
-	void				*mlx;
-	void				*win;
-	int					render;
-	void				*img;
-	char				*buff_img;
-	size_t				iter;
-	size_t				win_x_size;
-	size_t				win_y_size;
-	int					m_x;
-	int					m_y;
-	int					m_x_old;
-	int					m_y_old;
-	int					offset_x;
-	int					offset_y;
-	float				x_min;
-	float				x_max;
-	float				y_min;
-	float				y_max;
-	float				x_pitch;
-	float				y_pitch;
-	float				zoom;
-	size_t				color;
-	char				*disp_iter;
-	int					fractal;
-	size_t				mouse_tracking;
-	cudaExtent			fl_extent;
-	cudaExtent			uint_extent;
-	cudaPitchedPtr		*fl_matrix;
-	cudaPitchedPtr		*uint_matrix;
-	float				*d_x_min;
-	float				*d_y_max;
-	float				*d_x_pitch;
-	float				*d_y_pitch;
-	char				*d_buff_img;
-}						t_mlx;
+	void					*mlx;
+	void					*win;
+	int						render;
+	void					*img;
+	char					*buff_img;
+	size_t					iter;
+	size_t					win_x_size;
+	size_t					win_y_size;
+	int						m_x;
+	int						m_y;
+	int						m_x_old;
+	int						m_y_old;
+	int						offset_x;
+	int						offset_y;
+	float					x_min;
+	float					x_max;
+	float					y_min;
+	float					y_max;
+	float					x_pitch;
+	float					y_pitch;
+	float					zoom;
+	size_t					color;
+	char					*disp_iter;
+	int						fractal;
+	size_t					mouse_tracking;
+	struct cudaExtent		fl_extent;
+	struct cudaExtent		uint_extent;
+	struct cudaPitchedPtr	*fl_matrix;
+	struct cudaPitchedPtr	*uint_matrix;
+	float					*d_x_min;
+	float					*d_y_max;
+	float					*d_x_pitch;
+	float					*d_y_pitch;
+	char					*d_buff_img;
+	size_t					nb_block;
+	size_t					*d_color;
+	size_t					*d_win_x_size;
+	size_t					*d_win_y_size;
+	size_t					*d_iter;
+}							t_mlx;
 
 char			*ft_mlx_i_position_in_2d(void *img, int i, int j);
 void			ft_mlx_i_pixel_put(void *img, int x, int y, int color);
@@ -79,20 +85,20 @@ int				expose_hook(t_mlx *e);
 int				key_hook(int keycode, t_mlx *e);
 int				mouse_loc_hook(int x, int y, t_mlx *e);
 int				mouse_hook(int button, int x, int y, t_mlx *e);
-void			ft_mlx_i_draw_mandelbrot(t_mlx *e, double z_r_init,
-					double z_i_init);
-void			ft_mlx_i_draw_burningship(t_mlx *e, double z_r_init,
-					double z_i_init);
+void			ft_mlx_i_draw_mandelbrot(t_mlx *e, float z_r_init,
+					float z_i_init);
+void			ft_mlx_i_draw_burningship(t_mlx *e, float z_r_init,
+					float z_i_init);
 void			ft_mlx_i_draw_burningship_julia(t_mlx *e);
 void			ft_mlx_i_draw_julia(t_mlx *e);
-double			ft_julia_init_value(int pos, size_t size, int axis);
+float			ft_julia_init_value(int pos, size_t size, int axis);
 void			ft_mlx_i_clear_img(void *img, int i, int j);
 void			ft_mlx_i_pixel_put_color_palet(t_mlx *e, int i, int j,
 					size_t cur_it);
-int				ft_calc_mb(double *init_x, double *init_y, double x, double y);
-int				ft_calc_bs(double *init_x, double *init_y, double x, double y);
-double			ft_pitch_value(double min, double max, size_t size);
-double			ft_offset_value(double value, int offset, double pitch);
+int				ft_calc_mb(float *init_x, float *init_y, float x, float y);
+int				ft_calc_bs(float *init_x, float *init_y, float x, float y);
+float			ft_pitch_value(float min, float max, size_t size);
+float			ft_offset_value(float value, int offset, float pitch);
 int				ft_seek_offset(int size, int pos);
 void			ft_mlx_exit(t_mlx *e);
 void			ft_mlx_zoom_in(t_mlx *e);
@@ -111,6 +117,12 @@ int				ft_is_str_a_number(char *str);
 int				main_part_0_05(t_mlx *e, char **argv);
 int				ft_cuda_init(t_mlx *e);
 void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
-__global__ void	ft_matrix_seek_pixel_color
+__global__ void	ft_matrix_calc_mb(struct cudaPitchedPtr *ft_matrix,
+					struct cudaPitchedPtr *uint_matrix, float *x_min, float *y_max,
+					float *x_pitch, float *y_pitch, size_t *win_x_size,
+					size_t *win_y_size, int *color, size_t *it_max);
+void			ft_get_img_buff(t_mlx *e);
+__global__ void	ft_copy_to_image(struct cudaPitchedPtr *uint_matrix, char *buff,
+					size_t *win_x);
 
 #endif
