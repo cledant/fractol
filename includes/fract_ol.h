@@ -63,15 +63,11 @@ typedef struct				s_mlx
 	char					*disp_iter;
 	int						fractal;
 	size_t					mouse_tracking;
-	struct cudaExtent		fl_extent;
-	struct cudaExtent		uint_extent;
-	struct cudaPitchedPtr	*fl_matrix;
-	struct cudaPitchedPtr	*uint_matrix;
 	float					*d_x_min;
 	float					*d_y_max;
 	float					*d_x_pitch;
 	float					*d_y_pitch;
-	char					*d_buff_img;
+	unsigned int			*d_buff_img;
 	size_t					nb_block;
 	size_t					*d_color;
 	size_t					*d_win_x_size;
@@ -117,12 +113,10 @@ int				ft_is_str_a_number(char *str);
 int				main_part_0_05(t_mlx *e, char **argv);
 int				ft_cuda_init(t_mlx *e);
 void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
-__global__ void	ft_matrix_calc_mb(struct cudaPitchedPtr *ft_matrix,
-					struct cudaPitchedPtr *uint_matrix, float *x_min, float *y_max,
-					float *x_pitch, float *y_pitch, size_t *win_x_size,
-					size_t *win_y_size, size_t *color, size_t *it_max);
+__global__ void	ft_matrix_calc_mb(unsigned int *color_buff,
+					float *x_min, float *y_max, float *x_pitch, float *y_pitch,
+					size_t *win_x_size, size_t *win_y_size, size_t *color,
+					size_t *it_max);
 void			ft_get_img_buff(t_mlx *e);
-__global__ void	ft_copy_to_image(struct cudaPitchedPtr *uint_matrix, char *buff,
-					size_t *win_x);
 
 #endif

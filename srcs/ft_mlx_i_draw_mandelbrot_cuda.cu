@@ -24,11 +24,9 @@ void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_color, (const void *)e->color, sizeof(size_t),
 			cudaMemcpyHostToDevice);
-	ft_matrix_calc_mb<<<e->nb_block, M_THREAD>>>(e->fl_matrix, e->uint_matrix,
+	ft_matrix_calc_mb<<<e->nb_block, M_THREAD>>>(e->d_buff_img,
 			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
 			e->d_win_y_size, e->d_color, e->d_iter);
-	ft_copy_to_image<<<e->nb_block, M_THREAD>>>(e->uint_matrix, e->d_buff_img,
-			e->d_win_x_size);
 	cudaMemcpy(e->buff_img, (const void *)e->d_buff_img,
-			e->win_x_size * e->win_y_size * 4, cudaMemcpyDeviceToHost);
+			e->win_x_size * e->win_y_size * sizeof(int), cudaMemcpyDeviceToHost);
 }

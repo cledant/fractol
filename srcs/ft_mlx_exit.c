@@ -14,14 +14,15 @@
 
 void	ft_mlx_exit(t_mlx *e)
 {
-	cudaFree(e->fl_matrix);
-	cudaFree(e->uint_matrix);
 	cudaFree(e->d_x_min);
 	cudaFree(e->d_y_max);
 	cudaFree(e->d_x_pitch);
 	cudaFree(e->d_y_pitch);
 	cudaFree(e->d_buff_img);
 	cudaFree(e->d_color);
+	cudaFree(e->d_win_x_size);
+	cudaFree(e->d_win_y_size);
+	cudaFree(e->d_iter);
 	mlx_destroy_image(e->mlx, e->img);
 	mlx_clear_window(e->mlx, e->win);
 	mlx_destroy_window(e->mlx, e->win);

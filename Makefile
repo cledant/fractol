@@ -36,7 +36,7 @@ SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
 			key_hook.c mouse_hook.c mouse_loc_hook.c ft_mlx_i_position_in_2d.c \
 			ft_mlx_i_pixel_put.c ft_is_str_a_number.c main_part_0_05.c \
 			ft_init_cuda.cu	ft_mlx_i_draw_mandelbrot_cuda.cu ft_matrix_calc_mb.cu \
-			ft_get_img_buff.c ft_copy_to_image.cu
+			ft_get_img_buff.c
 
 SRC_PATH = ./srcs/
 
