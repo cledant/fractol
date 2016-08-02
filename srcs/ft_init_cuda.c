@@ -6,7 +6,7 @@
 /*   By: cledant <cledant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 16:37:10 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/02 16:37:19 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 00:37:19 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				ft_cuda_init(t_mlx *e)
 		ft_clean(e, 8);
 		return (0);
 	}
-	cudaMemcpy(e->d_iter, (const void *)e->iter, sizeof(size_t),
+	cudaMemcpy(e->d_iter, (const void *)&e->iter, sizeof(size_t),
 			cudaMemcpyHostToDevice);
 	return (1);
 }

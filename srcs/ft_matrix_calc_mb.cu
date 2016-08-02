@@ -1,6 +1,7 @@
 extern "C"
 {
 #include "fract_ol.h"
+#include <stdio.h>
 }
 
 __device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
@@ -18,7 +19,7 @@ __device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
 		sqrt[0] = init[0] * init[0];
 		sqrt[1] = init[1] * init[1];
 		tmp[0]= sqrt[0] - sqrt[1] + pos_real[0];
-		tmp[1] = sqrt[0] * sqrt[1];
+		tmp[1] = init[0] * init[1];
 		tmp[1] += tmp[1];
 		tmp[1] += pos_real[1];
 		init[0] = tmp[0]; 
@@ -70,8 +71,9 @@ __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 	if (idx_x < *win_x_size && idx_y < *win_y_size)
 	{
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
-		pos_real[1] = *y_max + (idx_y * *y_pitch);
+		pos_real[1] = *y_max - (idx_y * *y_pitch);
 		it = ft_mb_it(pos_real, it_max);
+		printf("%lu\n", it);
 		color_buff[idx_x + idx_y * *win_y_size] = ft_calc_color(it, color,
 						it_max);
 	}
