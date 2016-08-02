@@ -6,11 +6,15 @@
 #    By: cledant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 10:40:13 by cledant           #+#    #+#              #
-#    Updated: 2016/07/28 21:31:46 by cledant          ###   ########.fr        #
+#    Updated: 2016/08/03 00:16:10 by cledant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = nvcc
+CC_CUDA = nvcc
+
+LINKER = g++
+
+CC = gcc
 
 CFLAGS =
 
@@ -20,9 +24,13 @@ INCLUDES_LIBFT = ./libft/includes
 
 INCLUDES_LIBMLX = ./minilibx_macos
 
+INCLUDES_CUDA = /Developer/NVIDIA/CUDA-7.5/include
+
 LIBFT_PATH = ./libft
 
 LIBMLX_PATH = ./minilibx_macos
+
+LIB_CUDA = /Developer/NVIDIA/CUDA-7.5/lib
 
 SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
 			ft_calc_mb.c ft_pitch_value.c ft_offset_value.c ft_seek_offset.c \
@@ -35,14 +43,19 @@ SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
 			ft_mlx_i_draw_burningship_julia.c ft_check_first_argv.c expose_hook.c \
 			key_hook.c mouse_hook.c mouse_loc_hook.c ft_mlx_i_position_in_2d.c \
 			ft_mlx_i_pixel_put.c ft_is_str_a_number.c main_part_0_05.c \
-			ft_init_cuda.cu	ft_mlx_i_draw_mandelbrot_cuda.cu ft_matrix_calc_mb.cu \
-			ft_get_img_buff.c
+			ft_init_cuda.c ft_get_img_buff.c
+
+SRC_NAME_CUDA = 	ft_mlx_i_draw_mandelbrot_cuda.cu ft_matrix_calc_mb.cu 
 
 SRC_PATH = ./srcs/
 
 SRC =	$(addprefix $(SRC_PATH),$(SRC_NAME))
 
+SRC_CUDA =	$(addprefix $(SRC_PATH),$(SRC_NAME_CUDA))
+
 OBJ =	$(SRC_NAME:.c=.o)
+
+OBJ_CUDA =	$(SRC_NAME_CUDA:.cu=.o)
 
 NAME = fractol
 
@@ -54,14 +67,18 @@ libft :
 libmlx :
 	make -C $(LIBMLX_PATH)
 
-$(NAME) : $(OBJ)
-	$(CC) $(OBJ) -o $(NAME) $(CFLAGS) -lft -lmlx -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -L$(LIBFT_PATH) -L$(LIBMLX_PATH) -framework OpenGL -framework Appkit
+$(NAME) : $(OBJ) $(OBJ_CUDA)
+	$(LINKER) $(OBJ) $(OBJ_CUDA) -o $(NAME) $(CFLAGS) -lft -lmlx -I$(INCLUDES_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -L$(LIBFT_PATH) -L$(LIBMLX_PATH) -lcudart -L$(LIB_CUDA) -I$(INCLUDES_CUDA) -framework OpenGL -framework Appkit
+
+$(OBJ_CUDA) :
+	$(CC_CUDA) -c $(SRC_CUDA) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX)
 
 $(OBJ) :
-	$(CC) -c $(SRC) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX)
+	$(CC) -c $(SRC) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -I$(INCLUDES_CUDA)
 
 clean :
 	rm -rf $(OBJ)
+	rm -rf $(OBJ_CUDA)
 	make -C $(LIBFT_PATH) clean
 	make -C $(LIBMLX_PATH) clean
 

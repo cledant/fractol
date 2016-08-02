@@ -10,8 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+extern "C" 
+{
 #include "fract_ol.h"
+}
 
+extern "C"
 void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 {
 	cudaMemcpy(e->d_x_min, (const void *)&e->x_min, sizeof(float),

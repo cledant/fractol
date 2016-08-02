@@ -6,12 +6,16 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 22:15:38 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 00:18:42 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
+
+# ifdef __cplusplus
+	extern "C"
+# endif
 
 # include <string.h>
 # include <mlx.h>

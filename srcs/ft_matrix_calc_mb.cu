@@ -1,4 +1,7 @@
+extern "C"
+{
 #include "fract_ol.h"
+}
 
 __device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
 {
@@ -29,7 +32,7 @@ __device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
 	}
 }
 
-__device__ static unsigned int	ft_calc_color(size_t it, int *color, 
+__device__ static unsigned int	ft_calc_color(size_t it, size_t *color, 
 									size_t *it_max)
 {
 	if (it <= *it_max)
@@ -55,7 +58,7 @@ __device__ static unsigned int	ft_calc_color(size_t it, int *color,
 __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 							float *x_min, float *y_max, float *x_pitch,
 							float *y_pitch, size_t *win_x_size,
-							size_t *win_y_size, int *color, size_t *it_max)
+							size_t *win_y_size, size_t *color, size_t *it_max)
 {
 	size_t	idx_x;
 	size_t	idx_y;
@@ -68,8 +71,8 @@ __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 	{
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
 		pos_real[1] = *y_max + (idx_y * *y_pitch);
-		it = ft_mb_it(pos_real, *it_max);
-		color_buff[idx_x + idx_y * win_y_size] = ft_calc_color(it, color,
+		it = ft_mb_it(pos_real, it_max);
+		color_buff[idx_x + idx_y * *win_y_size] = ft_calc_color(it, color,
 						it_max);
 	}
 }
