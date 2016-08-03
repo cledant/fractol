@@ -6,7 +6,7 @@
 /*   By: cledant <cledant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 16:37:10 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/03 00:37:19 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 18:54:20 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ static void		ft_clean(t_mlx *e, int error)
 
 int				ft_cuda_init(t_mlx *e)
 {
-	e->nb_block = (e->win_x_size % M_THREAD == 0) ? e->win_x_size % M_THREAD :
-		e->win_x_size % M_THREAD + 1;
+	size_t	bigger;
+
+	bigger = (e->win_x_size > e->win_y_size) ? e->win_x_size : e->win_y_size;
+	e->nb_block = (bigger % M_THREAD == 0) ? bigger / M_THREAD :
+		bigger / M_THREAD + 1;
 	if (cudaMalloc((void **)(&e->d_x_min), sizeof(float)) != cudaSuccess)
 		return (0);
 	if (cudaMalloc((void **)(&e->d_y_max), sizeof(float)) != cudaSuccess)
@@ -79,7 +82,5 @@ int				ft_cuda_init(t_mlx *e)
 		ft_clean(e, 8);
 		return (0);
 	}
-	cudaMemcpy(e->d_iter, (const void *)&e->iter, sizeof(size_t),
-			cudaMemcpyHostToDevice);
 	return (1);
 }

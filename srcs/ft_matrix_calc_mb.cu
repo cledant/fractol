@@ -68,12 +68,13 @@ __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 
 	idx_x = blockIdx.x * blockDim.x + threadIdx.x;
 	idx_y = blockIdx.y * blockDim.y + threadIdx.y;
+//	printf("%lu %lu\n", idx_x, idx_y);
 	if (idx_x < *win_x_size && idx_y < *win_y_size)
 	{
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
 		pos_real[1] = *y_max - (idx_y * *y_pitch);
 		it = ft_mb_it(pos_real, it_max);
-		printf("%lu\n", it);
+//		printf("%lu\n", it);
 		color_buff[idx_x + idx_y * *win_y_size] = ft_calc_color(it, color,
 						it_max);
 	}

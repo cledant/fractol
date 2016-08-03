@@ -18,6 +18,15 @@ extern "C"
 extern "C"
 void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 {
+	dim3 thread2d(M_THREAD, M_THREAD);
+	dim3 block2d(e->nb_block, e->nb_block);
+
+	cudaMemcpy(e->d_iter, (const void *)&e->iter, sizeof(size_t),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(e->d_win_x_size, (const void *)&e->win_x_size, sizeof(size_t),
+			cudaMemcpyHostToDevice);
+	cudaMemcpy(e->d_win_y_size, (const void *)&e->win_y_size, sizeof(size_t),
+			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_x_min, (const void *)&e->x_min, sizeof(float),
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_y_max, (const void *)&e->y_max, sizeof(float),
@@ -28,7 +37,7 @@ void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_color, (const void *)&e->color, sizeof(size_t),
 			cudaMemcpyHostToDevice);
-	ft_matrix_calc_mb<<<e->nb_block, M_THREAD>>>(e->d_buff_img,
+	ft_matrix_calc_mb<<<block2d, thread2d>>>(e->d_buff_img,
 			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
 			e->d_win_y_size, e->d_color, e->d_iter);
 	cudaMemcpy(e->buff_img, (const void *)e->d_buff_img,
