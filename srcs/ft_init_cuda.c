@@ -6,7 +6,7 @@
 /*   By: cledant <cledant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 16:37:10 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/03 21:01:30 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 00:42:34 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ static void		ft_clean(t_mlx *e, int error)
 
 int				ft_cuda_init(t_mlx *e)
 {
-	size_t	bigger;
-
-	bigger = (e->win_x_size > e->win_y_size) ? e->win_x_size : e->win_y_size;
-	e->nb_block = (bigger % M_THREAD == 0) ? bigger / M_THREAD :
-		bigger / M_THREAD + 1;
+	e->nb_block_x = (e->win_x_size % M_THREAD_X == 0) ? e->win_x_size / M_THREAD_X :
+		e->win_x_size / M_THREAD_X + 1;
+	e->nb_block_y = (e->win_y_size % M_THREAD_Y == 0) ? e->win_y_size / M_THREAD_Y :
+		e->win_y_size / M_THREAD_Y + 1;
 	if (cudaMalloc((void **)(&e->d_x_min), sizeof(double)) != cudaSuccess)
 		return (0);
 	if (cudaMalloc((void **)(&e->d_y_max), sizeof(double)) != cudaSuccess)

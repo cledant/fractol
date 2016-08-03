@@ -41,15 +41,15 @@ __device__ static unsigned int	ft_calc_color(size_t it, size_t *color,
 		if (*color == 1)
 			return (it * 0x000FF000 + 0x000000FF);
 		else if (*color == 2)
-			return (it * 0x000F0F0F + 0x00102030);
+			return (it * 0x00102030 + 0x000F0F0F);
 		else if (*color == 3)
-			return (it * 0x00F0000F + 0x00111111);
+			return (it * 0x00111111 + 0x00F0000F);
 		else if (*color == 4)
-			return (it * 0x00000000 + 0x00060006);
+			return (it * 0x00060006 + 0x00000000);
 		else if (*color == 5)
-			return (it * 0x00A4B580 + 0x00341165);
+			return (it * 0x00341165 + 0x00A4B580);
 		else if (*color == 6)
-			return (it * 0x00000000 + 0x00060100);
+			return (it * 0x00060100 + 0x00000000);
 	}
 	else
 		return (0x00000000);
@@ -73,7 +73,7 @@ __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
 		pos_real[1] = *y_max - (idx_y * *y_pitch);
 		it = ft_mb_it(pos_real, it_max);
-		color_buff[idx_x + idx_y * *win_y_size] = ft_calc_color(it, color,
+		color_buff[idx_x + idx_y * *win_x_size] = ft_calc_color(it, color,
 						it_max);
 	}
 }

@@ -18,8 +18,8 @@ extern "C"
 extern "C"
 void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 {
-	dim3 thread2d(M_THREAD, M_THREAD);
-	dim3 block2d(e->nb_block, e->nb_block);
+	dim3 thread2d(M_THREAD_X , M_THREAD_Y);
+	dim3 block2d(e->nb_block_x, e->nb_block_y);
 
 	cudaMemcpy(e->d_iter, (const void *)&e->iter, sizeof(size_t),
 			cudaMemcpyHostToDevice);

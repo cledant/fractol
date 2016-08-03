@@ -6,9 +6,13 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/03 20:59:44 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 00:54:08 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+** 2 * 192 CUDA CORE ON GTX 660M
+*/
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
@@ -22,7 +26,8 @@
 # include "libft.h"
 # include <cuda.h>
 # include <cuda_runtime.h>
-# define M_THREAD 32
+# define M_THREAD_X 16
+# define M_THREAD_Y 12
 # define MLX_KEY_ESC 53
 # define MLX_KEY_MINUS 78
 # define MLX_KEY_PLUS 69
@@ -72,7 +77,8 @@ typedef struct				s_mlx
 	double					*d_x_pitch;
 	double					*d_y_pitch;
 	unsigned int			*d_buff_img;
-	size_t					nb_block;
+	size_t					nb_block_x;
+	size_t					nb_block_y;
 	size_t					*d_color;
 	size_t					*d_win_x_size;
 	size_t					*d_win_y_size;
