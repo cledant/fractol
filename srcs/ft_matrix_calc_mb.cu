@@ -4,12 +4,12 @@ extern "C"
 #include <stdio.h>
 }
 
-__device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
+__device__ static size_t		ft_mb_it(double pos_real[2], size_t *it_max)
 {
 	size_t	it;
-	float	sqrt[2];
-	float	tmp[2];
-	float	init[2];
+	double	sqrt[2];
+	double	tmp[2];
+	double	init[2];
 
 	it = 0;
 	init[0] = 0;
@@ -25,9 +25,9 @@ __device__ static size_t		ft_mb_it(float pos_real[2], size_t *it_max)
 		init[0] = tmp[0]; 
 		init[1] = tmp[1];
 		if ((init[0] * init[0]) + (init[1] * init[1]) <= 4)
-			return (it);
-		else
 			it++;
+		else
+			return (it);
 		if (it > *it_max)
 			return (it);
 	}
@@ -57,24 +57,22 @@ __device__ static unsigned int	ft_calc_color(size_t it, size_t *color,
 }
 
 __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
-							float *x_min, float *y_max, float *x_pitch,
-							float *y_pitch, size_t *win_x_size,
+							double *x_min, double *y_max, double *x_pitch,
+							double *y_pitch, size_t *win_x_size,
 							size_t *win_y_size, size_t *color, size_t *it_max)
 {
 	size_t	idx_x;
 	size_t	idx_y;
-	float	pos_real[2];
+	double	pos_real[2];
 	size_t	it;
 
 	idx_x = blockIdx.x * blockDim.x + threadIdx.x;
 	idx_y = blockIdx.y * blockDim.y + threadIdx.y;
-//	printf("%lu %lu\n", idx_x, idx_y);
 	if (idx_x < *win_x_size && idx_y < *win_y_size)
 	{
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
 		pos_real[1] = *y_max - (idx_y * *y_pitch);
 		it = ft_mb_it(pos_real, it_max);
-//		printf("%lu\n", it);
 		color_buff[idx_x + idx_y * *win_y_size] = ft_calc_color(it, color,
 						it_max);
 	}

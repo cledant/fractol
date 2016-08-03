@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 12:35:05 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:30:34 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 21:03:17 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static void	ft_set_zero_3(size_t *i, size_t *j)
 	(*j)++;
 }
 
-void		ft_mlx_i_draw_mandelbrot(t_mlx *e, float z_r_init,
-				float z_i_init)
+void		ft_mlx_i_draw_mandelbrot(t_mlx *e, double z_r_init,
+				double z_i_init)
 {
 	size_t	i;
 	size_t	j;
 	size_t	cur_it;
 	size_t	draw;
-	float	cpy_init_val[2];
+	double	cpy_init_val[2];
 
 	ft_set_zero_1(&i, &j, &cur_it, &draw);
 	cpy_init_val[0] = z_r_init;

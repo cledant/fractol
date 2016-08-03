@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/24 12:14:02 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:29:58 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 21:02:49 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_set_zero_a(size_t *i, size_t *j, size_t *cur_it, size_t *draw)
 	*draw = 0;
 }
 
-static void	ft_set_tracking(t_mlx *e, float *z_r_init, float *z_i_init)
+static void	ft_set_tracking(t_mlx *e, double *z_r_init, double *z_i_init)
 {
 	if (e->mouse_tracking == 1)
 	{
@@ -34,8 +34,8 @@ static void	ft_set_tracking(t_mlx *e, float *z_r_init, float *z_i_init)
 	}
 }
 
-static void	ft_set_cpy_val(float *cpy_r, float *cpy_i, float z_r_init,
-				float z_i_init)
+static void	ft_set_cpy_val(double *cpy_r, double *cpy_i, double z_r_init,
+				double z_i_init)
 {
 	*cpy_r = z_r_init;
 	*cpy_i = z_i_init;
@@ -54,7 +54,7 @@ void		ft_mlx_i_draw_burningship_julia(t_mlx *e)
 	size_t	j;
 	size_t	cur_it;
 	size_t	draw;
-	float	cpy_val[4];
+	double	cpy_val[4];
 
 	ft_set_zero_a(&i, &j, &cur_it, &draw);
 	ft_set_tracking(e, &cpy_val[2], &cpy_val[3]);

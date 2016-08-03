@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/03 01:38:42 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 20:59:44 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,21 @@ typedef struct				s_mlx
 	int						m_y_old;
 	int						offset_x;
 	int						offset_y;
-	float					x_min;
-	float					x_max;
-	float					y_min;
-	float					y_max;
-	float					x_pitch;
-	float					y_pitch;
-	float					zoom;
+	double					x_min;
+	double					x_max;
+	double					y_min;
+	double					y_max;
+	double					x_pitch;
+	double					y_pitch;
+	double					zoom;
 	size_t					color;
 	char					*disp_iter;
 	int						fractal;
 	size_t					mouse_tracking;
-	float					*d_x_min;
-	float					*d_y_max;
-	float					*d_x_pitch;
-	float					*d_y_pitch;
+	double					*d_x_min;
+	double					*d_y_max;
+	double					*d_x_pitch;
+	double					*d_y_pitch;
 	unsigned int			*d_buff_img;
 	size_t					nb_block;
 	size_t					*d_color;
@@ -85,20 +85,20 @@ int				expose_hook(t_mlx *e);
 int				key_hook(int keycode, t_mlx *e);
 int				mouse_loc_hook(int x, int y, t_mlx *e);
 int				mouse_hook(int button, int x, int y, t_mlx *e);
-void			ft_mlx_i_draw_mandelbrot(t_mlx *e, float z_r_init,
-					float z_i_init);
-void			ft_mlx_i_draw_burningship(t_mlx *e, float z_r_init,
-					float z_i_init);
+void			ft_mlx_i_draw_mandelbrot(t_mlx *e, double z_r_init,
+					double z_i_init);
+void			ft_mlx_i_draw_burningship(t_mlx *e, double z_r_init,
+					double z_i_init);
 void			ft_mlx_i_draw_burningship_julia(t_mlx *e);
 void			ft_mlx_i_draw_julia(t_mlx *e);
-float			ft_julia_init_value(int pos, size_t size, int axis);
+double			ft_julia_init_value(int pos, size_t size, int axis);
 void			ft_mlx_i_clear_img(void *img, int i, int j);
 void			ft_mlx_i_pixel_put_color_palet(t_mlx *e, int i, int j,
 					size_t cur_it);
-int				ft_calc_mb(float *init_x, float *init_y, float x, float y);
-int				ft_calc_bs(float *init_x, float *init_y, float x, float y);
-float			ft_pitch_value(float min, float max, size_t size);
-float			ft_offset_value(float value, int offset, float pitch);
+int				ft_calc_mb(double *init_x, double *init_y, double x, double y);
+int				ft_calc_bs(double *init_x, double *init_y, double x, double y);
+double			ft_pitch_value(double min, double max, size_t size);
+double			ft_offset_value(double value, int offset, double pitch);
 int				ft_seek_offset(int size, int pos);
 void			ft_mlx_exit(t_mlx *e);
 void			ft_mlx_zoom_in(t_mlx *e);
@@ -118,7 +118,7 @@ int				main_part_0_05(t_mlx *e, char **argv);
 int				ft_cuda_init(t_mlx *e);
 void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
 __global__ void	ft_matrix_calc_mb(unsigned int *color_buff,
-					float *x_min, float *y_max, float *x_pitch, float *y_pitch,
+					double *x_min, double *y_max, double *x_pitch, double *y_pitch,
 					size_t *win_x_size, size_t *win_y_size, size_t *color,
 					size_t *it_max);
 void			ft_get_img_buff(t_mlx *e);

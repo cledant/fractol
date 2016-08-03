@@ -27,13 +27,13 @@ void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_win_y_size, (const void *)&e->win_y_size, sizeof(size_t),
 			cudaMemcpyHostToDevice);
-	cudaMemcpy(e->d_x_min, (const void *)&e->x_min, sizeof(float),
+	cudaMemcpy(e->d_x_min, (const void *)&e->x_min, sizeof(double),
 			cudaMemcpyHostToDevice);
-	cudaMemcpy(e->d_y_max, (const void *)&e->y_max, sizeof(float),
+	cudaMemcpy(e->d_y_max, (const void *)&e->y_max, sizeof(double),
 			cudaMemcpyHostToDevice);
-	cudaMemcpy(e->d_x_pitch, (const void *)&e->x_pitch, sizeof(float),
+	cudaMemcpy(e->d_x_pitch, (const void *)&e->x_pitch, sizeof(double),
 			cudaMemcpyHostToDevice);
-	cudaMemcpy(e->d_y_pitch, (const void *)&e->y_pitch, sizeof(float),
+	cudaMemcpy(e->d_y_pitch, (const void *)&e->y_pitch, sizeof(double),
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_color, (const void *)&e->color, sizeof(size_t),
 			cudaMemcpyHostToDevice);

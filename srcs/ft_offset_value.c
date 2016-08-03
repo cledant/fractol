@@ -6,11 +6,11 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 13:06:45 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:30:47 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 21:03:31 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-float	ft_offset_value(float value, int offset, float pitch)
+double	ft_offset_value(double value, int offset, double pitch)
 {
 	return (value + (pitch * offset));
 }

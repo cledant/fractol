@@ -6,7 +6,7 @@
 #    By: cledant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 10:40:13 by cledant           #+#    #+#              #
-#    Updated: 2016/08/03 00:16:10 by cledant          ###   ########.fr        #
+#    Updated: 2016/08/03 21:21:26 by cledant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LINKER = g++
 
 CC = gcc
 
-CFLAGS =
+CFLAGS = -Wall -Werror -Wextra -O2
 
 INCLUDES = ./includes
 
@@ -31,6 +31,10 @@ LIBFT_PATH = ./libft
 LIBMLX_PATH = ./minilibx_macos
 
 LIB_CUDA = /Developer/NVIDIA/CUDA-7.5/lib
+
+CUDA_ARCH = -arch sm_30
+
+CUDA_OPT = -O2
 
 SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
 			ft_calc_mb.c ft_pitch_value.c ft_offset_value.c ft_seek_offset.c \
@@ -71,7 +75,7 @@ $(NAME) : $(OBJ) $(OBJ_CUDA)
 	$(LINKER) $(OBJ) $(OBJ_CUDA) -o $(NAME) $(CFLAGS) -lft -lmlx -I$(INCLUDES_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -L$(LIBFT_PATH) -L$(LIBMLX_PATH) -lcudart -L$(LIB_CUDA) -I$(INCLUDES_CUDA) -framework OpenGL -framework Appkit
 
 $(OBJ_CUDA) :
-	$(CC_CUDA) -c $(SRC_CUDA) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX)
+	$(CC_CUDA) -c $(SRC_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) $(CUDA_ARCH) $(CUDA_OPT)
 
 $(OBJ) :
 	$(CC) -c $(SRC) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -I$(INCLUDES_CUDA)

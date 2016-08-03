@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 13:08:30 by cledant           #+#    #+#             */
-/*   Updated: 2016/07/28 21:29:46 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/03 21:02:28 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,21 @@ static void		ft_reset_val(size_t *cur_it, size_t *draw, size_t *i)
 	(*i)++;
 }
 
-static void		ft_set_cpy_val(float *cpy_r, float *cpy_i, float z_r_init,
-					float z_i_init)
+static void		ft_set_cpy_val(double *cpy_r, double *cpy_i, double z_r_init,
+					double z_i_init)
 {
 	*cpy_r = z_r_init;
 	*cpy_i = z_i_init;
 }
 
-void			ft_mlx_i_draw_burningship(t_mlx *e, float z_r_init,
-					float z_i_init)
+void			ft_mlx_i_draw_burningship(t_mlx *e, double z_r_init,
+					double z_i_init)
 {
 	size_t	i;
 	size_t	j;
 	size_t	cur_it;
 	size_t	draw;
-	float	cpy_init_val[2];
+	double	cpy_init_val[2];
 
 	ft_init_val(&i, &j, &cur_it, &draw);
 	ft_set_cpy_val(&cpy_init_val[0], &cpy_init_val[1], z_r_init, z_i_init);
