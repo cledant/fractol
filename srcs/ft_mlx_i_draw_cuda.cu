@@ -21,16 +21,16 @@ static void	ft_init_mouse(t_mlx *e)
 
 	if (e->mouse_tracking == 1)
 	{
-		i_mouse[0] = (2 * (e->m_x - ((int)e->win_x_size)) /
+		i_mouse[0] = (2 * (e->m_x - ((int)e->win_x_size) / 2) /
 				(double)(e->win_x_size / 2));
-		i_mouse[1] = (2 * (-e->m_y - ((int)e->win_y_size)) /
+		i_mouse[1] = (2 * (-e->m_y + ((int)e->win_y_size) / 2) /
 				(double)(e->win_y_size / 2));
 	}
 	else
 	{
-		i_mouse[0] = (2 * (e->m_x_old - ((int)e->win_x_size)) /
+		i_mouse[0] = (2 * (e->m_x_old - ((int)e->win_x_size) / 2) /
 				(double)(e->win_x_size / 2));
-		i_mouse[1] = (2 * (-e->m_y_old - ((int)e->win_y_size)) /
+		i_mouse[1] = (2 * (-e->m_y_old + ((int)e->win_y_size) / 2) /
 				(double)(e->win_y_size / 2));
 	}
 	cudaMemcpy(e->d_mouse, (const void *)&i_mouse, 2 * sizeof(double),
