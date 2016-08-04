@@ -78,6 +78,13 @@ void		ft_mlx_i_draw_cuda(t_mlx *e)
 			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
 			e->d_win_y_size, e->d_color, e->d_iter);
 	}
+	else if (e->fractal == 4)
+	{
+		ft_init_mouse(e);
+		ft_matrix_calc_bs_julia<<<block2d, thread2d>>>(e->d_buff_img,
+			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
+			e->d_win_y_size, e->d_color, e->d_iter, e->d_mouse);
+	}
 	cudaMemcpy(e->buff_img, (const void *)e->d_buff_img,
 			e->win_x_size * e->win_y_size * sizeof(int), cudaMemcpyDeviceToHost);
 }

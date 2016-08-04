@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/04 14:41:26 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 15:40:26 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,11 @@ __global__ void			ft_matrix_calc_julia(unsigned int *color_buff, double *x_min,
 							double *y_max, double *x_pitch, double *y_pitch,
 							size_t *win_x_size, size_t *win_y_size, size_t *color,
 							size_t *it_max, double *mouse);
+__global__ void			ft_matrix_calc_bs_julia(unsigned int *color_buff,
+							double *x_min, double *y_max, double *x_pitch,
+							double *y_pitch, size_t *win_x_size,
+							size_t *win_y_size, size_t *color, size_t *it_max,
+							double *mouse);
 __device__ unsigned int	ft_calc_color(size_t it, size_t *color, size_t *it_max);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: cledant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 10:40:13 by cledant           #+#    #+#              #
-#    Updated: 2016/08/04 14:43:22 by cledant          ###   ########.fr        #
+#    Updated: 2016/08/04 15:40:24 by cledant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRC_NAME =	ft_mlx_i_clear_img.c \
 			ft_init_cuda.c ft_get_img_buff.c
 
 SRC_NAME_CUDA = 	ft_mlx_i_draw_cuda.cu ft_matrix_calc_mb.cu ft_calc_color.cu \
-					ft_matrix_calc_bs.cu ft_matrix_calc_julia.cu
+					ft_matrix_calc_bs.cu ft_matrix_calc_julia.cu \
+					ft_matrix_calc_bs_julia.cu
 
 SRC_PATH = ./srcs/
 
