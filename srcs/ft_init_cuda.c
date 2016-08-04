@@ -6,7 +6,7 @@
 /*   By: cledant <cledant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/02 16:37:10 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/04 00:42:34 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 14:31:03 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void		ft_clean(t_mlx *e, int error)
 		cudaFree(e->d_win_x_size);
 	if (error < 9)
 		cudaFree(e->d_win_y_size);
+	if (error < 10)
+		cudaFree(e->d_mouse);
 }
 
 int				ft_cuda_init(t_mlx *e)
@@ -79,6 +81,11 @@ int				ft_cuda_init(t_mlx *e)
 	if (cudaMalloc((void **)(&e->d_win_y_size), sizeof(size_t)) != cudaSuccess)
 	{
 		ft_clean(e, 8);
+		return (0);
+	}
+	if (cudaMalloc((void **)(&e->d_mouse), 2 * sizeof(double)) != cudaSuccess)
+	{
+		ft_clean(e, 9);
 		return (0);
 	}
 	return (1);

@@ -1,7 +1,6 @@
 extern "C"
 {
 #include "fract_ol.h"
-#include <stdio.h>
 }
 
 __device__ static size_t		ft_mb_it(double pos_real[2], size_t *it_max)

@@ -15,6 +15,28 @@ extern "C"
 #include "fract_ol.h"
 }
 
+static void	ft_init_mouse(t_mlx *e)
+{
+	double	i_mouse[2];
+
+	if (e->mouse_tracking == 1)
+	{
+		i_mouse[0] = (2 * (e->m_x - ((int)e->win_x_size)) /
+				(double)(e->win_x_size / 2));
+		i_mouse[1] = (2 * (-e->m_y - ((int)e->win_y_size)) /
+				(double)(e->win_y_size / 2));
+	}
+	else
+	{
+		i_mouse[0] = (2 * (e->m_x_old - ((int)e->win_x_size)) /
+				(double)(e->win_x_size / 2));
+		i_mouse[1] = (2 * (-e->m_y_old - ((int)e->win_y_size)) /
+				(double)(e->win_y_size / 2));
+	}
+	cudaMemcpy(e->d_mouse, (const void *)&i_mouse, 2 * sizeof(double),
+			cudaMemcpyHostToDevice);
+}
+
 extern "C"
 void		ft_mlx_i_draw_cuda(t_mlx *e)
 {
@@ -42,6 +64,13 @@ void		ft_mlx_i_draw_cuda(t_mlx *e)
 		ft_matrix_calc_mb<<<block2d, thread2d>>>(e->d_buff_img,
 			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
 			e->d_win_y_size, e->d_color, e->d_iter);
+	}
+	else if (e->fractal == 2)
+	{
+		ft_init_mouse(e);
+		ft_matrix_calc_julia<<<block2d, thread2d>>>(e->d_buff_img,
+			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
+			e->d_win_y_size, e->d_color, e->d_iter, e->d_mouse);
 	}
 	else if (e->fractal == 3)
 	{
