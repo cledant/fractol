@@ -4,7 +4,12 @@ extern "C"
 #include <stdio.h>
 }
 
-__device__ static size_t		ft_mb_it(double pos_real[2], size_t *it_max)
+__device__ static double		ft_abs_double(double val)
+{
+	return ((val < 0) ? -val : val);
+}
+
+__device__ static size_t		ft_bs_it(double pos_real[2], size_t *it_max)
 {
 	size_t	it;
 	double	sqrt[2];
@@ -16,6 +21,8 @@ __device__ static size_t		ft_mb_it(double pos_real[2], size_t *it_max)
 	init[1] = 0;
 	while (1)
 	{
+		init[0] = ft_abs_double(init[0]);
+		init[1] = ft_abs_double(init[1]);
 		sqrt[0] = init[0] * init[0];
 		sqrt[1] = init[1] * init[1];
 		tmp[0]= sqrt[0] - sqrt[1] + pos_real[0];
@@ -33,7 +40,7 @@ __device__ static size_t		ft_mb_it(double pos_real[2], size_t *it_max)
 	}
 }
 
-__global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
+__global__ void			ft_matrix_calc_bs(unsigned int *color_buff,
 							double *x_min, double *y_max, double *x_pitch,
 							double *y_pitch, size_t *win_x_size,
 							size_t *win_y_size, size_t *color, size_t *it_max)
@@ -48,8 +55,8 @@ __global__ void			ft_matrix_calc_mb(unsigned int *color_buff,
 	if (idx_x < *win_x_size && idx_y < *win_y_size)
 	{
 		pos_real[0] = *x_min + (idx_x * *x_pitch);
-		pos_real[1] = *y_max - (idx_y * *y_pitch);
-		it = ft_mb_it(pos_real, it_max);
+		pos_real[1] = -(*y_max - (idx_y * *y_pitch));
+		it = ft_bs_it(pos_real, it_max);
 		color_buff[idx_x + idx_y * *win_x_size] = ft_calc_color(it, color,
 						it_max);
 	}

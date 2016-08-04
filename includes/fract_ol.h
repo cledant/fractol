@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 10:30:54 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/04 00:54:08 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 01:39:28 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,16 @@ int				ft_check_first_argv(char *argv);
 int				ft_is_str_a_number(char *str);
 int				main_part_0_05(t_mlx *e, char **argv);
 int				ft_cuda_init(t_mlx *e);
-void			ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e);
-__global__ void	ft_matrix_calc_mb(unsigned int *color_buff,
-					double *x_min, double *y_max, double *x_pitch, double *y_pitch,
-					size_t *win_x_size, size_t *win_y_size, size_t *color,
-					size_t *it_max);
+void			ft_mlx_i_draw_cuda(t_mlx *e);
 void			ft_get_img_buff(t_mlx *e);
+__global__ void			ft_matrix_calc_mb(unsigned int *color_buff, double *x_min,
+							double *y_max, double *x_pitch, double *y_pitch,
+							size_t *win_x_size, size_t *win_y_size, size_t *color,
+							size_t *it_max);
+__global__ void			ft_matrix_calc_bs(unsigned int *color_buff, double *x_min,
+							double *y_max, double *x_pitch, double *y_pitch,
+							size_t *win_x_size, size_t *win_y_size, size_t *color,
+							size_t *it_max);
+__device__ unsigned int	ft_calc_color(size_t it, size_t *color, size_t *it_max);
 
 #endif

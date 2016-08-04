@@ -6,7 +6,7 @@
 /*   By: cledant <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 08:42:20 by cledant           #+#    #+#             */
-/*   Updated: 2016/08/03 00:36:49 by cledant          ###   ########.fr       */
+/*   Updated: 2016/08/04 01:28:55 by cledant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_mlx_fractal_type(t_mlx *e)
 	else if (e->fractal == 2)
 		ft_mlx_i_draw_julia(e);
 	else if (e->fractal == 3)
-		ft_mlx_i_draw_burningship(e, 0, 0);
+		ft_mlx_i_draw_burningship_cuda(e);
 	else if (e->fractal == 4)
 		ft_mlx_i_draw_burningship_julia(e);
 }

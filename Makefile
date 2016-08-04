@@ -6,7 +6,7 @@
 #    By: cledant <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 10:40:13 by cledant           #+#    #+#              #
-#    Updated: 2016/08/03 21:21:26 by cledant          ###   ########.fr        #
+#    Updated: 2016/08/04 02:32:55 by cledant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,20 +36,20 @@ CUDA_ARCH = -arch sm_30
 
 CUDA_OPT = -O2
 
-SRC_NAME =	ft_mlx_i_draw_mandelbrot.c ft_mlx_i_clear_img.c \
-			ft_calc_mb.c ft_pitch_value.c ft_offset_value.c ft_seek_offset.c \
+SRC_NAME =	ft_mlx_i_clear_img.c \
+			ft_pitch_value.c ft_offset_value.c ft_seek_offset.c \
 			ft_mlx_exit.c ft_mlx_zoom_in.c ft_mlx_zoom_out.c ft_mlx_reset.c \
 			ft_mlx_reset_view.c main.c ft_mlx_change_color.c \
-			ft_mlx_i_pixel_put_color_palet.c ft_mlx_change_iter.c \
-			ft_mlx_change_disp_iter.c ft_mlx_move_camera.c ft_mlx_fractal_type.c \
-			ft_mlx_i_draw_julia.c ft_julia_init_value.c ft_mlx_mouse_tracking.c \
-			ft_mlx_i_draw_burningship.c ft_calc_bs.c ft_display_instruction.c \
-			ft_mlx_i_draw_burningship_julia.c ft_check_first_argv.c expose_hook.c \
-			key_hook.c mouse_hook.c mouse_loc_hook.c ft_mlx_i_position_in_2d.c \
-			ft_mlx_i_pixel_put.c ft_is_str_a_number.c main_part_0_05.c \
+			ft_mlx_change_iter.c \
+			ft_mlx_change_disp_iter.c ft_mlx_move_camera.c \
+			ft_mlx_mouse_tracking.c \
+			ft_display_instruction.c \
+			ft_check_first_argv.c expose_hook.c \
+			key_hook.c mouse_hook.c mouse_loc_hook.c \
+			ft_is_str_a_number.c main_part_0_05.c \
 			ft_init_cuda.c ft_get_img_buff.c
 
-SRC_NAME_CUDA = 	ft_mlx_i_draw_mandelbrot_cuda.cu ft_matrix_calc_mb.cu 
+SRC_NAME_CUDA = 	ft_mlx_i_draw_cuda.cu ft_matrix_calc_mb.cu ft_calc_color.cu ft_matrix_calc_bs.cu
 
 SRC_PATH = ./srcs/
 
@@ -61,6 +61,8 @@ OBJ =	$(SRC_NAME:.c=.o)
 
 OBJ_CUDA =	$(SRC_NAME_CUDA:.cu=.o)
 
+OBJ_CUDA_LINK = gpuCode.o
+
 NAME = fractol
 
 all :	libft libmlx $(NAME)
@@ -71,11 +73,14 @@ libft :
 libmlx :
 	make -C $(LIBMLX_PATH)
 
-$(NAME) : $(OBJ) $(OBJ_CUDA)
-	$(LINKER) $(OBJ) $(OBJ_CUDA) -o $(NAME) $(CFLAGS) -lft -lmlx -I$(INCLUDES_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -L$(LIBFT_PATH) -L$(LIBMLX_PATH) -lcudart -L$(LIB_CUDA) -I$(INCLUDES_CUDA) -framework OpenGL -framework Appkit
+$(NAME) : $(OBJ) $(OBJ_CUDA_LINK)
+	$(LINKER) $(OBJ) $(OBJ_CUDA_LINK) $(OBJ_CUDA) -o $(NAME) $(CFLAGS) -lft -lmlx -I$(INCLUDES_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -L$(LIBFT_PATH) -L$(LIBMLX_PATH) -lcudart -L$(LIB_CUDA) -I$(INCLUDES_CUDA) -framework OpenGL -framework Appkit
 
 $(OBJ_CUDA) :
-	$(CC_CUDA) -c $(SRC_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) $(CUDA_ARCH) $(CUDA_OPT)
+	$(CC_CUDA) -dc $(SRC_CUDA) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) $(CUDA_ARCH) $(CUDA_OPT)
+
+$(OBJ_CUDA_LINK) : $(OBJ_CUDA)
+	$(CC_CUDA) -dlink $(OBJ_CUDA) $(CUDA_ARCH) $(CUDA_OPT) -o $(OBJ_CUDA_LINK)
 
 $(OBJ) :
 	$(CC) -c $(SRC) $(CFLAGS) -I$(INCLUDES) -I$(INCLUDES_LIBFT) -I$(INCLUDES_LIBMLX) -I$(INCLUDES_CUDA)
@@ -83,6 +88,7 @@ $(OBJ) :
 clean :
 	rm -rf $(OBJ)
 	rm -rf $(OBJ_CUDA)
+	rm -rf $(OBJ_CUDA_LINK)
 	make -C $(LIBFT_PATH) clean
 	make -C $(LIBMLX_PATH) clean
 

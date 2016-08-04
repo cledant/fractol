@@ -16,7 +16,7 @@ extern "C"
 }
 
 extern "C"
-void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
+void		ft_mlx_i_draw_cuda(t_mlx *e)
 {
 	dim3 thread2d(M_THREAD_X , M_THREAD_Y);
 	dim3 block2d(e->nb_block_x, e->nb_block_y);
@@ -37,9 +37,18 @@ void		ft_mlx_i_draw_mandelbrot_cuda(t_mlx *e)
 			cudaMemcpyHostToDevice);
 	cudaMemcpy(e->d_color, (const void *)&e->color, sizeof(size_t),
 			cudaMemcpyHostToDevice);
-	ft_matrix_calc_mb<<<block2d, thread2d>>>(e->d_buff_img,
+	if (e->fractal == 1)
+	{
+		ft_matrix_calc_mb<<<block2d, thread2d>>>(e->d_buff_img,
 			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
 			e->d_win_y_size, e->d_color, e->d_iter);
+	}
+	else if (e->fractal == 3)
+	{
+		ft_matrix_calc_bs<<<block2d, thread2d>>>(e->d_buff_img,
+			e->d_x_min, e->d_y_max, e->d_x_pitch, e->d_y_pitch, e->d_win_x_size,
+			e->d_win_y_size, e->d_color, e->d_iter);
+	}
 	cudaMemcpy(e->buff_img, (const void *)e->d_buff_img,
 			e->win_x_size * e->win_y_size * sizeof(int), cudaMemcpyDeviceToHost);
 }
