@@ -1,5 +1,7 @@
 # Fractol
 
+![screenshot](/screenshot/fractol.png?raw=true)
+
 Fractals rendering using 42 graphic api minilibx
 
 ## Featured fractals
